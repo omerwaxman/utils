@@ -30,8 +30,12 @@ class Window(QMainWindow):
 
         loadUi("rfid.ui", self)
         self.label.setText("Open port to use scanner")
+        self.label.setStyleSheet("border: 1px solid black")
+
         self.progressBar.reset()
         self.portButton.setDefault(False)
+        self.scanButton.setEnabled(False)
+
 
         if os.name in ('nt', 'dos'):
             for i in range (0, 10):
@@ -52,6 +56,8 @@ class Window(QMainWindow):
 
                 self.label.setText("Press scan to start")
                 self.portButton.setText("Close port")
+                self.label.setStyleSheet("border: 1px solid blue")
+                self.scanButton.setEnabled(True)
             except:
                 self.label.setText("Failed to open serial port")
                 self.portButton.setChecked(False)
@@ -61,7 +67,9 @@ class Window(QMainWindow):
                     self.ser.close()
 
                 self.portButton.setText("Open port")
+                self.label.setStyleSheet("border: 2px solid black")
                 self.label.setText("Open port to use scanner")
+                self.scanButton.setEnabled(False)
 
             except:
                 self.label.setText("Failed to close port")
@@ -69,6 +77,7 @@ class Window(QMainWindow):
     def scanCard(self):
         try:
             self.label.setText("Scanning, place card on scanner")
+            self.label.setStyleSheet("border: 2px solid blue")
             self.ser.setDTR(True)
             self.progressBar.reset()
             data='0'
@@ -78,11 +87,13 @@ class Window(QMainWindow):
                 if len(data)==12:
                     self.progressBar.setValue(100)
                     self.label.setText(format(data[1:10].decode('utf-8')))
+                    self.label.setStyleSheet("border: 4px solid green")
                     break
             self.ser.setDTR(False)
             self.ser.flushInput()
             if len(data) != 12:
                 self.label.setText("No card was detected")
+                self.label.setStyleSheet("border: 4px solid red")
         except:
             self.label.setText("Failed to scan, check serial port")
 
