@@ -37,7 +37,7 @@ try:
         ser.flushInput()
         if len(data) == 12:
             print ("\n ----------------------------\n| SUCCESS, RFID = {} |\n ----------------------------".
-                format(data[1:10].decode('utf-8')))
+                format(data[1:11].decode('utf-8')))
             print ("Press any key to scan another card or q/Q to quit")
             if getch.getch() == ('q' or 'Q'):
                 scan = False
