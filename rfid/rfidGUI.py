@@ -60,6 +60,7 @@ class Window(QMainWindow):
                 self.scanButton.setEnabled(True)
             except:
                 self.label.setText("Failed to open serial port")
+                self.label.setStyleSheet("border: 2px solid red")
                 self.portButton.setChecked(False)
         else:
             try:
@@ -86,7 +87,7 @@ class Window(QMainWindow):
                 self.progressBar.setValue((i+1) * 25)
                 if len(data)==12:
                     self.progressBar.setValue(100)
-                    self.label.setText(format(data[1:10].decode('utf-8')))
+                    self.label.setText(format(data[1:11].decode('utf-8')))
                     self.label.setStyleSheet("border: 4px solid green")
                     break
             self.ser.setDTR(False)
